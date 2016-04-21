@@ -9,6 +9,9 @@ public class ClientUpdaterThread extends Thread {
 
 	public void run() {
 		System.out.println("Hej, jag är en UpdaterThread! Hej då!");
+		while (true) {
+
+		}
 	}
-	
+
 }
