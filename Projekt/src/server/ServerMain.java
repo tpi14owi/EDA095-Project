@@ -20,7 +20,7 @@ public class ServerMain {
 		
 		try {
 			Socket s = null;
-			while(sm.connectionAvailable()) {
+			while(true) {
 				s = ss.accept();
 				Thread it = new ServerInputThread(s, sm);
 				Thread ot = new ServerOutputThread(s, sm);
@@ -28,7 +28,7 @@ public class ServerMain {
 				ot.start();
 				sm.addConnection(s);
 			}
-			ss.close();
+//			ss.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
