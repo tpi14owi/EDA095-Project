@@ -1,4 +1,4 @@
-package Client;
+package client;
 
 public class ClientInputThread extends Thread {
 
