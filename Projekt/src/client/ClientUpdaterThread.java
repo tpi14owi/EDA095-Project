@@ -10,7 +10,7 @@ public class ClientUpdaterThread extends Thread {
 	public void run() {
 		System.out.println("Hej, jag är en UpdaterThread! Hej då!");
 		while (true) {
-
+			// Fetch work from monitor and send to game
 		}
 	}
 
