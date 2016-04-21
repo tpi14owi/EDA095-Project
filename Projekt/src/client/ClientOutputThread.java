@@ -1,9 +1,10 @@
-package Client;
+package client;
 
 public class ClientOutputThread extends Thread {
+	private ClientMonitor monitor;
 	
-	public ClientOutputThread() {
-		
+	public ClientOutputThread(ClientMonitor monitor) {
+		this.monitor = monitor;
 	}
 
 }
