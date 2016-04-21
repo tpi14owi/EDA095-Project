@@ -13,7 +13,7 @@ public class ClientMonitor {
 	 * @param readLine
 	 */
 	synchronized public char[] getOutput() {
-		char[] ret = {'h', 'e', 'j'};
+		char[] ret = {'H', 'e', 'l','l','o'};
 		return ret;
 	}
 	

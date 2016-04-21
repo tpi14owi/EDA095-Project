@@ -19,7 +19,9 @@ public class ClientOutputThread extends Thread {
 		while(true) {
 			try {
 				sleep((long) (Math.random() * 10000));
+				System.out.println(monitor.getOutput());
 				bw.write(monitor.getOutput());
+				bw.flush();
 			} catch (Exception e) {
 				System.out.println("Couldn't write data to ServerInput");
 				e.printStackTrace();
