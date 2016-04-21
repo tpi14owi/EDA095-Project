@@ -7,4 +7,8 @@ public class ClientUpdaterThread extends Thread {
 		this.monitor = monitor;
 	}
 
+	public void run() {
+		System.out.println("Hej, jag är en UpdaterThread! Hej då!");
+	}
+	
 }

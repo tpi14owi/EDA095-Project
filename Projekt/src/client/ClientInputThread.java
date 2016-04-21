@@ -7,4 +7,8 @@ public class ClientInputThread extends Thread {
 		this.monitor = monitor;
 	}
 
+	public void run() {
+		System.out.println("Hej, jag är en InputThread! Hej då!");
+	}
+	
 }
