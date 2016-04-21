@@ -4,17 +4,17 @@ import java.net.Socket;
 
 public class ServerMonitor {
 
-	public void addConnection(Socket s) {
+	public synchronized void addConnection(Socket s) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public boolean connectionAvailable() {
+	public synchronized boolean connectionAvailable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public void removeConnection(Socket s) {
+	public synchronized void removeConnection(Socket s) {
 		// TODO Auto-generated method stub
 		
 	}
