@@ -1,4 +1,4 @@
-package client;
+package main.java.client;
 
 public class ClientUpdaterThread extends Thread {
 	private ClientMonitor monitor;
