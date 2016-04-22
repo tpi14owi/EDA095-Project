@@ -8,7 +8,7 @@ import java.io.OutputStreamWriter;
 public class ClientOutputThread extends Thread {
 	private ClientMonitor monitor;
 	private BufferedWriter bw;
-	
+
 	public ClientOutputThread(ClientMonitor monitor, OutputStream os) {
 		this.monitor = monitor;
 		bw = new BufferedWriter(new OutputStreamWriter(os));
@@ -25,8 +25,8 @@ public class ClientOutputThread extends Thread {
 			} catch (Exception e) {
 				System.out.println("Couldn't write data to ServerInput");
 				e.printStackTrace();
-			}			
+			}
 		}
 	}
-	
+
 }

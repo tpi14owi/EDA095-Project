@@ -18,7 +18,7 @@ public class ServerInputThread extends Thread {
 	}
 
 	public void run() {
-		
+
 		try {
 			is = s.getInputStream();
 			ir = new BufferedReader(new InputStreamReader(is));
@@ -28,7 +28,7 @@ public class ServerInputThread extends Thread {
 		}
 		while (s.isConnected()) {
 			try {
-				
+
 				System.out.println((char)ir.read());
 				System.out.println("fredrik är stygg");
 			} catch (IOException e) {
@@ -37,7 +37,7 @@ public class ServerInputThread extends Thread {
 		}
 		sm.removeConnection(s);
 	}
-	
+
 
 	// Dö
 

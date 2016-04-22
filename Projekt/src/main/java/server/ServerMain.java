@@ -5,11 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerMain {
-	static final int PORT = 1337; 
-	
-	
+	static final int PORT = 1337;
+
+
 	public static void main(String[] args) {
-		
+
 		ServerSocket ss = null;
 		ServerMonitor sm = new ServerMonitor();
 		try {
@@ -17,7 +17,7 @@ public class ServerMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			Socket s = null;
 			while(true) {
@@ -32,8 +32,8 @@ public class ServerMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 }

@@ -10,11 +10,11 @@ public class ServerOutputThread extends Thread {
 		this.s = s;
 		this.sm = sm;
 	}
-	
+
 	public void run() {
 		while (s.isConnected()) {
 		}
-		
+
 	}
 
 }

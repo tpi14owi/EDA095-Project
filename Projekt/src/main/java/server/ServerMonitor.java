@@ -6,7 +6,7 @@ public class ServerMonitor {
 
 	public synchronized void addConnection(Socket s) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public synchronized boolean connectionAvailable() {
@@ -16,7 +16,7 @@ public class ServerMonitor {
 
 	public synchronized void removeConnection(Socket s) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
