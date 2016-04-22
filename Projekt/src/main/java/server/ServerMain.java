@@ -20,15 +20,22 @@ public class ServerMain {
 
 		try {
 			Socket s = null;
-			while(true) {
-				s = ss.accept();
-				Thread it = new ServerInputThread(s, sm);
-				Thread ot = new ServerOutputThread(s, sm);
-				it.start();
-				ot.start();
-				sm.addConnection(s);
+			while (true) {
+				if (sm.newConnectionPossible()) {
+					s = ss.accept();
+					Thread it = new ServerInputThread(s, sm);
+					Thread ot = new ServerOutputThread(s, sm);
+					it.start();
+					ot.start();
+					sm.addConnection(s);
+				} else {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}
-//			ss.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
