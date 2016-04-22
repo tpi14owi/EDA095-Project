@@ -30,15 +30,10 @@ public class ServerInputThread extends Thread {
 			try {
 
 				System.out.println((char)ir.read());
-				System.out.println("fredrik är stygg");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		sm.removeConnection(s);
 	}
-
-
-	// Dö
-
 }
