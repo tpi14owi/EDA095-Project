@@ -9,6 +9,7 @@
 	<name>Spelet</name>
 
 	<properties>
+		<jme3.version>3.0.10</jme3.version>
 		<jdk.version>1.7</jdk.version>
 	</properties>
 
@@ -21,12 +22,39 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.jme3</groupId>	
+			<artifactId>jme3-core</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jme3</groupId>	
+			<artifactId>jme3-desktop</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jme3</groupId>	
+			<artifactId>jme3-lwjgl3</artifactId>
+			<version>3.1.0-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.1</version>
 		</dependency>
 
 	</dependencies>
+
+
+	<repositories>
+		<repository>
+			<id>jme3-repo</id>
+			<url>http://updates.jmonkeyengine.org/maven/</url>
+		</repository>
+	</repositories>
 
 	<reporting>
 		<plugins>
