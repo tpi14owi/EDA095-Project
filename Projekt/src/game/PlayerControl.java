@@ -29,6 +29,8 @@ public class PlayerControl extends AbstractControl {
             if (spatial.getLocalTranslation().x  > (Float)spatial.getUserData("radius")) {
                 spatial.move(tpf*-speed,0,0);
             }
+            
+            System.out.println("HEEEEJ\nNEEEJ");
            
 //            spatial.rotate(0,0, -lastRotation + FastMath.PI);
 //            lastRotation=FastMath.PI;
@@ -36,6 +38,7 @@ public class PlayerControl extends AbstractControl {
             if (spatial.getLocalTranslation().x < screenWidth - (Float)spatial.getUserData("radius")) {
                 spatial.move(tpf*speed,0,0);               
             }
+            System.out.println("HEEEEJ\nNEEEJ");
 //            spatial.rotate(0,0,-lastRotation + 0);
 //            lastRotation=0;
         }

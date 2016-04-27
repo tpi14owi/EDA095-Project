@@ -28,8 +28,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		SnueMain app = new SnueMain();
 		PlayerMonitor pm = new PlayerMonitor();
 		app.setMonitor(pm);
-		app.start();
-		// (new PlayerUpdaterThread(pm)).start();
+		app.start();		
 		timer = 0;
 	}
 

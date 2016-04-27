@@ -2,5 +2,41 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/eventbus.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jbullet.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jglfont-core.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jinput.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3_2014-06-12.zip"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-blender.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-core.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-desktop.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-effects.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-jbullet.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-jogg.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-lwjgl.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-networking.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-niftygui.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-openal-soft-natives-android.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-plugins.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-terrain.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jME3-testdata.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jMonkeyEngine3.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/joal.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/j-ogg-oggd.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/j-ogg-vorbisd.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/jogl-all.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/MonkeyBlaster-Source.zip"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/nifty.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/nifty-default-controls.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/nifty-examples.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/nifty-style-black.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/Snue.zip"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/Snue Left.zip"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/stack-alloc.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/vecmath.jar"/>
+	<classpathentry kind="lib" path="/h/d3/a/dat12fda/Downloads/xmlpull-xpp3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
