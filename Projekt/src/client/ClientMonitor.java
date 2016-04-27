@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ClientMonitor {
-	private Queue<String> queue;
+	private Queue<String> worklist;
 	
 	
 	
 	public ClientMonitor() {
-		queue = new LinkedList<String>();
+		worklist = new LinkedList<String>();
 	}
 
 	/**
@@ -17,14 +17,14 @@ public class ClientMonitor {
 	 * @param readLine
 	 */
 	public synchronized char[] getOutput() {
-		while (queue.isEmpty()) {
+		while (worklist.isEmpty()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return queue.poll().toCharArray();
+		return worklist.poll().toCharArray();
 	}
 	
 	/**
@@ -52,12 +52,12 @@ public class ClientMonitor {
 	}
 
 	public synchronized void moveLeft() {
-		queue.add("left");
+		worklist.add("left");
 		notifyAll();
 	}
 
 	public synchronized void moveRight() {
-		queue.add("right");
+		worklist.add("right");
 		notifyAll();		
 	}
 	
