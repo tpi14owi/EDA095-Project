@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import main.java.game.SnueMain;
+
 public class GameClient {
 
 	public static void main(String[] args) {
@@ -17,6 +19,9 @@ public class GameClient {
 
 		int port = Integer.parseInt(args[1]);
 		String host = args[0];
+
+		// Change "snue" in SnueMain constructor to be fetched from args!??
+		SnueMain app = new SnueMain(m, "snue");
 
 		Socket socket = null;
 		try {
@@ -38,6 +43,5 @@ public class GameClient {
 		(new ClientInputThread(m, is)).start();
 		(new ClientOutputThread(m, os)).start();
 		(new ClientUpdaterThread(m)).start();
-
 	}
 }

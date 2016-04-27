@@ -140,25 +140,6 @@
 							<goal>single</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>build-game</id>
-						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<archive>
-								<manifest>
-									<mainClass>main.java.game.SnueMain</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-							<finalName>SnueMain</finalName>
-						</configuration>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
 				</executions>
 			</plugin>
 
