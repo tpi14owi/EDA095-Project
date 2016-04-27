@@ -1,4 +1,3 @@
-package game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -16,23 +15,25 @@ import com.jme3.ui.Picture;
 
 public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
-
 	public Node player;
 	private Node bulletNode;
 	private Picture pic;
 	private int lastMovement;
-	private static long timer;	
+	private static long timer;
+	private PlayerMonitor pm;
 
 	public static void main(String[] args) {
 		SnueMain app = new SnueMain();
-//		PlayerMonitor pm = new PlayerMonitor(app);
-//		app.setMonitor(pm);
+		PlayerMonitor pm = new PlayerMonitor();
+		app.setMonitor(pm);
 		app.start();
-//		(new PlayerUpdaterThread(pm)).start();
+		// (new PlayerUpdaterThread(pm)).start();
 		timer = 0;
 	}
-	
-	
+
+	public void setMonitor(PlayerMonitor pm) {
+		this.pm = pm;
+	}
 
 	@Override
 	public void simpleInitApp() {
@@ -59,7 +60,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
-		
+
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 
@@ -80,7 +81,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		player.detachChild(pic);
 
 		pic = new Picture(name);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name);
+		Texture2D tex = (Texture2D) assetManager.loadTexture(name + ".png");
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -125,72 +126,23 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		node.attachChild(pic);
 		return node;
 	}
-	
 
 	@Override
 	/**
-	 * PROBLEMET: Räknar bara ett knapptryck, samt när detta släpps.
-	 * Behöver kontinuerlig kontroll på nedtryckt knapp
+	 * PROBLEMET: Räknar bara ett knapptryck, samt när detta släpps. Behöver
+	 * kontinuerlig kontroll på nedtryckt knapp
 	 */
 	public void onAction(String name, boolean isPressed, float tpf) {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
 				player.getControl(PlayerControl.class).left = isPressed;				
-				System.out.println("Heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeej\nhej\nheeej");
-			
-				
-//				updateSpatial("snue_left_walk.gif", player);
-//				switch (lastMovement) {
-//				case 0:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left_step1", player);
-//						lastMovement = 1;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 1:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left", player);
-//						lastMovement = 2;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 2:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left_step2", player);
-//						lastMovement = 3;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 3:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left", player);
-//						lastMovement = 0;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				}
+				updateSpatial("snue_left", player);
 			} else if (name.equals("right")) {
 				player.getControl(PlayerControl.class).right = isPressed;
-				switch (lastMovement) {
-				case 0:
-					updateSpatial("snue_right_step1.png", player);
-					lastMovement = 1;
-					break;
-				case 1:
-					updateSpatial("snue_right.png", player);
-					lastMovement = 2;
-					break;
-				case 2:
-					updateSpatial("snue_right_step2.png", player);
-					lastMovement = 3;
-					break;
-				case 3:
-					updateSpatial("snue_right.png", player);
-					lastMovement = 0;
-					break;
-				}
+				updateSpatial("snue_right", player);
 			}
 		}
+		pm.setRightPressed(player.getControl(PlayerControl.class).right);
+		pm.setLeftPressed(player.getControl(PlayerControl.class).left);
 	}
 }
