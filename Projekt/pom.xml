@@ -35,10 +35,15 @@
 		
 		<dependency>
 			<groupId>com.jme3</groupId>	
-			<artifactId>jme3-lwjgl3</artifactId>
-			<version>3.1.0-SNAPSHOT</version>
+			<artifactId>jme3-lwjgl</artifactId>
+			<version>${jme3.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.jme3</groupId>	
+			<artifactId>jme3-blender</artifactId>
+			<version>${jme3.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -129,6 +134,25 @@
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
 							<finalName>GameClient</finalName>
+						</configuration>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>build-game</id>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<archive>
+								<manifest>
+									<mainClass>main.java.game.SnueMain</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<finalName>SnueMain</finalName>
 						</configuration>
 						<phase>package</phase>
 						<goals>
