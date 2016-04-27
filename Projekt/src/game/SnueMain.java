@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -19,28 +21,28 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
 	public Node player;
 	private Node bulletNode;
-	private Picture pic;
-	private int lastMovement;
-	private static long timer;
-	private PlayerMonitor pm;
+	private Picture pic;	
 	private PlayerControl pc;
+	private ArrayList<String> textures;
 
 	public static void main(String[] args) {
-		SnueMain app = new SnueMain();
-		PlayerMonitor pm = new PlayerMonitor();
-		app.setMonitor(pm);
-		app.start();		
-		timer = 0;
-	}
-
-	public void setMonitor(PlayerMonitor pm) {
-		this.pm = pm;
-	}
+		//Change so that name comes from args
+		SnueMain app = new SnueMain("snue");		
+		app.start();				
+	}	
+	
+	public SnueMain(String name) {		
+		textures = new ArrayList<String>();
+		textures.add(0, name + "_right.png");
+		textures.add(1, name + "_right_step1.png");
+		textures.add(2, name + "_right_step2.png");
+		textures.add(3, name + "_left.png");
+		textures.add(4, name + "_left_step1.png");
+		textures.add(5, name + "_left_step2.png");
+	}	
 
 	@Override
-	public void simpleInitApp() {
-		lastMovement = 0;
-
+	public void simpleInitApp() {		
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
@@ -80,11 +82,11 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	}
 
-	public void updateSpatial(String name) {
+	public void updateSpatial(int i) {
 		player.detachChild(pic);
 
-		pic = new Picture(name);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name + ".png");
+		pic = new Picture(textures.get(i));
+		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -107,7 +109,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		// load picture
 		pic = new Picture(name);
 //		pc.setPic(pic);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name + ".png");
+		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(0));
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -140,13 +142,9 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
 				player.getControl(PlayerControl.class).left = isPressed;				
-				//updateSpatial("snue_left", player);
 			} else if (name.equals("right")) {
-				player.getControl(PlayerControl.class).right = isPressed;
-				//updateSpatial("snue_right", player);
+				player.getControl(PlayerControl.class).right = isPressed;				
 			}
-		}
-		pm.setRightPressed(player.getControl(PlayerControl.class).right);
-		pm.setLeftPressed(player.getControl(PlayerControl.class).left);
+		}		
 	}
 }
