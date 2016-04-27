@@ -80,7 +80,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		player.detachChild(pic);
 
 		pic = new Picture(name);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name);
+		Texture2D tex = (Texture2D) assetManager.loadTexture("assets/" + name);
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture

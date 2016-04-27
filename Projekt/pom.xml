@@ -169,6 +169,13 @@
 			</plugin>
 
 		</plugins>
+		<resources>
+			<resource>
+				<directory>assets/</directory>
+				<targetPath>./</targetPath>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
 	</build>
 
 </project>
