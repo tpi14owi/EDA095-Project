@@ -1,4 +1,7 @@
 package game;
+
+import java.util.ArrayList;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -14,30 +17,32 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
+import client.ClientMonitor;
+
 public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
-
 	public Node player;
-	private Node bulletNode;
+	private Node bulletNode;	
+	private ClientMonitor m;	
+	private PlayerControl pc;
+	private ArrayList<String> textures;
 	private Picture pic;
-	private int lastMovement;
-	private static long timer;	
-
-	public static void main(String[] args) {
-		SnueMain app = new SnueMain();
-//		PlayerMonitor pm = new PlayerMonitor(app);
-//		app.setMonitor(pm);
-		app.start();
-//		(new PlayerUpdaterThread(pm)).start();
-		timer = 0;
+	
+	public SnueMain(ClientMonitor m, String name) {	
+		textures = new ArrayList<String>();
+		textures.add(0, name + "_right.png");
+		textures.add(1, name + "_right_step1.png");
+		textures.add(2, name + "_right_step2.png");
+		textures.add(3, name + "_left.png");
+		textures.add(4, name + "_left_step1.png");
+		textures.add(5, name + "_left_step2.png");
+		this.start();			
+		this.m = m;
+		
 	}
 	
-	
-
 	@Override
-	public void simpleInitApp() {
-		lastMovement = 0;
-
+	public void simpleInitApp() {		
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
@@ -59,11 +64,12 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
-		
+
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
-
-		player.addControl(new PlayerControl(settings.getWidth(), settings.getHeight()));
+		
+		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this, m);
+		player.addControl(pc);
 	}
 
 	@Override
@@ -76,11 +82,11 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	}
 
-	public void updateSpatial(String name, Node player) {
+	public void updateSpatial(int i) {
 		player.detachChild(pic);
 
-		pic = new Picture(name);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name);
+		pic = new Picture(textures.get(i));
+		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -102,7 +108,8 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		Node node = new Node(name);
 		// load picture
 		pic = new Picture(name);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(name + ".png");
+//		pc.setPic(pic);
+		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(0));
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -125,72 +132,19 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		node.attachChild(pic);
 		return node;
 	}
-	
 
 	@Override
 	/**
-	 * PROBLEMET: Räknar bara ett knapptryck, samt när detta släpps.
-	 * Behöver kontinuerlig kontroll på nedtryckt knapp
+	 * PROBLEMET: Räknar bara ett knapptryck, samt när detta släpps. Behöver
+	 * kontinuerlig kontroll på nedtryckt knapp
 	 */
 	public void onAction(String name, boolean isPressed, float tpf) {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
 				player.getControl(PlayerControl.class).left = isPressed;				
-				System.out.println("Heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeej\nhej\nheeej");
-			
-				
-//				updateSpatial("snue_left_walk.gif", player);
-//				switch (lastMovement) {
-//				case 0:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left_step1", player);
-//						lastMovement = 1;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 1:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left", player);
-//						lastMovement = 2;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 2:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left_step2", player);
-//						lastMovement = 3;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				case 3:
-//					if (System.currentTimeMillis() - timer > 250) {
-//						updateSpatial("snue_left", player);
-//						lastMovement = 0;
-//						timer = System.currentTimeMillis();
-//					}
-//					break;
-//				}
 			} else if (name.equals("right")) {
-				player.getControl(PlayerControl.class).right = isPressed;
-				switch (lastMovement) {
-				case 0:
-					updateSpatial("snue_right_step1.png", player);
-					lastMovement = 1;
-					break;
-				case 1:
-					updateSpatial("snue_right.png", player);
-					lastMovement = 2;
-					break;
-				case 2:
-					updateSpatial("snue_right_step2.png", player);
-					lastMovement = 3;
-					break;
-				case 3:
-					updateSpatial("snue_right.png", player);
-					lastMovement = 0;
-					break;
-				}
+				player.getControl(PlayerControl.class).right = isPressed;				
 			}
-		}
+		}		
 	}
 }
