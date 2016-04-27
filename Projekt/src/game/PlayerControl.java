@@ -12,7 +12,10 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
+import client.ClientMonitor;
+
 public class PlayerControl extends AbstractControl {
+
 	private int screenWidth, screenHeight;
 
 	// is the player currently moving?
@@ -23,12 +26,15 @@ public class PlayerControl extends AbstractControl {
 	private int lastMovement;
 	private SnueMain sm;
 	private boolean lastMoveWasRight;
+    private ClientMonitor m;
 
-	public PlayerControl(int width, int height, SnueMain sm) {
+
+	public PlayerControl(int width, int height, SnueMain sm, ClientMonitor m) {
 		this.screenWidth = width;
 		this.screenHeight = height;
 		timer = 0;
 		this.sm = sm;
+        this.m = m;
 		lastMovement = 0;
 		lastMoveWasRight = true;
 	}
@@ -42,6 +48,7 @@ public class PlayerControl extends AbstractControl {
 		if (left) {
 			if (spatial.getLocalTranslation().x > (Float) spatial.getUserData("radius")) {
 				spatial.move(tpf * -speed, 0, 0);
+				m.moveLeft();
 			}
 			lastMoveWasRight = false;
 			if (System.currentTimeMillis() - timer > 100) {
@@ -56,6 +63,7 @@ public class PlayerControl extends AbstractControl {
 		} else if (right) {
 			if (spatial.getLocalTranslation().x < screenWidth - (Float) spatial.getUserData("radius")) {
 				spatial.move(tpf * speed, 0, 0);
+                m.moveRight();
 			}
 			lastMoveWasRight = true;
 			if (System.currentTimeMillis() - timer > 100) {

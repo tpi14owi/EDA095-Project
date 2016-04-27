@@ -1,27 +1,37 @@
 package client;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class ClientMonitor {
+	private Queue<String> queue;
 	
 	
 	
 	public ClientMonitor() {
-		
+		queue = new LinkedList<String>();
 	}
 
 	/**
 	 * Lets the OutputThread fetch work from output correalted worklist to send towards the server
 	 * @param readLine
 	 */
-	synchronized public char[] getOutput() {
-		char[] ret = {'H', 'e', 'l','l','o'};
-		return ret;
+	public synchronized char[] getOutput() {
+		while (queue.isEmpty()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		return queue.poll().toCharArray();
 	}
 	
 	/**
 	 * Lets the UpdaterThread put work into the output-worklist for the OutputThread to send to server.
 	 * @param readLine
 	 */
-	synchronized public void putOutput(String readLine) {
+	public synchronized void putOutput(String readLine) {
 		// TODO Auto-generated method stub		
 	}
 	
@@ -29,8 +39,7 @@ public class ClientMonitor {
 	 * Lets the Game fetch work from input correalted worklist to propagate to the game
 	 * @param readLine
 	 */
-	synchronized public char[] getInput() {
-		// TODO Auto-generated method stub
+	public synchronized char[] getInput() {
 		return null;
 	}
 	
@@ -38,8 +47,18 @@ public class ClientMonitor {
 	 * Lets the InputThread put work into the worklist for the updater to propagate to the game/GUI
 	 * @param readLine
 	 */
-	synchronized public void putInput(String readLine) {
+	public synchronized void putInput(String readLine) {
 		// TODO Auto-generated method stub		
+	}
+
+	public synchronized void moveLeft() {
+		queue.add("left");
+		notifyAll();
+	}
+
+	public synchronized void moveRight() {
+		queue.add("right");
+		notifyAll();		
 	}
 	
 	

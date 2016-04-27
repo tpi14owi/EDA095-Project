@@ -19,4 +19,11 @@ public class ServerMonitor {
 		
 	}
 
+	public synchronized void propagateAction(String readLine) {
+		if (readLine != null) {
+			System.out.println(readLine);
+			
+		}
+	}
+
 }

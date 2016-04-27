@@ -28,10 +28,9 @@ public class ServerInputThread extends Thread {
 		}
 		while (s.isConnected()) {
 			try {
-				
-				System.out.println((char)ir.read());
-				System.out.println("fredrik är stygg");
+				sm.propagateAction(ir.readLine());
 			} catch (IOException e) {
+				System.out.println("FWWWL");
 				e.printStackTrace();
 			}
 		}

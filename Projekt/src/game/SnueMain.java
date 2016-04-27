@@ -17,21 +17,18 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
+import client.ClientMonitor;
+
 public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
 	public Node player;
-	private Node bulletNode;
-	private Picture pic;	
+	private Node bulletNode;	
+	private ClientMonitor m;	
 	private PlayerControl pc;
 	private ArrayList<String> textures;
-
-	public static void main(String[] args) {
-		//Change so that name comes from args
-		SnueMain app = new SnueMain("snue");		
-		app.start();				
-	}	
+	private Picture pic;
 	
-	public SnueMain(String name) {		
+	public SnueMain(ClientMonitor m, String name) {	
 		textures = new ArrayList<String>();
 		textures.add(0, name + "_right.png");
 		textures.add(1, name + "_right_step1.png");
@@ -39,8 +36,11 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		textures.add(3, name + "_left.png");
 		textures.add(4, name + "_left_step1.png");
 		textures.add(5, name + "_left_step2.png");
-	}	
-
+		this.start();			
+		this.m = m;
+		
+	}
+	
 	@Override
 	public void simpleInitApp() {		
 		// setup camera for 2D games
@@ -68,7 +68,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 		
-		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this);
+		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this, m);
 		player.addControl(pc);
 	}
 
