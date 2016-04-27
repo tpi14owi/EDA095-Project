@@ -1,3 +1,17 @@
+Directory Structure
+===================
+
+In Projekt/assets, we store all assets (images, etc), the game engine will look for them there.
+Maybe later we will have to separate them, do this by making a new directory under
+Projekt/assets/newDir and then reference the files by "newDir/fileName", e.g. "Models/Model1.png".
+
+
+Code goes under src/main/java/server, src/main/java/client, etc.
+
+Tests goes under src/test/java
+
+
+
 Setup
 =====
 
