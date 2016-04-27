@@ -1,4 +1,4 @@
-package game;
+package main.java.game;
 import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
