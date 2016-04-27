@@ -23,6 +23,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private int lastMovement;
 	private static long timer;
 	private PlayerMonitor pm;
+	private PlayerControl pc;
 
 	public static void main(String[] args) {
 		SnueMain app = new SnueMain();
@@ -64,8 +65,9 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
-
-		player.addControl(new PlayerControl(settings.getWidth(), settings.getHeight()));
+		
+		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this);
+		player.addControl(pc);
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	}
 
-	public void updateSpatial(String name, Node player) {
+	public void updateSpatial(String name) {
 		player.detachChild(pic);
 
 		pic = new Picture(name);
@@ -104,6 +106,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		Node node = new Node(name);
 		// load picture
 		pic = new Picture(name);
+//		pc.setPic(pic);
 		Texture2D tex = (Texture2D) assetManager.loadTexture(name + ".png");
 		pic.setTexture(assetManager, tex, true);
 
@@ -137,10 +140,10 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
 				player.getControl(PlayerControl.class).left = isPressed;				
-				updateSpatial("snue_left", player);
+				//updateSpatial("snue_left", player);
 			} else if (name.equals("right")) {
 				player.getControl(PlayerControl.class).right = isPressed;
-				updateSpatial("snue_right", player);
+				//updateSpatial("snue_right", player);
 			}
 		}
 		pm.setRightPressed(player.getControl(PlayerControl.class).right);
