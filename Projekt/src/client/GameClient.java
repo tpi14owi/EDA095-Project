@@ -6,13 +6,19 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import game.PlayerMonitor;
+import game.SnueMain;
+
 public class GameClient {
 
 	public static void main(String[] args) {
 		ClientMonitor m = new ClientMonitor();
 		
+		SnueMain app = new SnueMain(m);
+
+		
 		int port = Integer.parseInt("1337");
-		String host = "lo-10";
+		String host = "varg-8";
 		
 		Socket socket = null;
 		try {

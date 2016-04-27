@@ -6,6 +6,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
+import client.ClientMonitor;
+
 public class PlayerControl extends AbstractControl {
     private int screenWidth, screenHeight;
  
@@ -15,11 +17,14 @@ public class PlayerControl extends AbstractControl {
     private float speed = 400f;
 //    lastRotation of the player
     private float lastRotation;    
+    
+    private ClientMonitor m;
  
  
-    public PlayerControl(int width, int height) {
+    public PlayerControl(int width, int height, ClientMonitor m) {
         this.screenWidth = width;
         this.screenHeight = height;
+        this.m = m;
        
     }
  
@@ -28,17 +33,17 @@ public class PlayerControl extends AbstractControl {
         if (left) {
             if (spatial.getLocalTranslation().x  > (Float)spatial.getUserData("radius")) {
                 spatial.move(tpf*-speed,0,0);
+                m.moveLeft();
             }
             
-            System.out.println("HEEEEJ\nNEEEJ");
            
 //            spatial.rotate(0,0, -lastRotation + FastMath.PI);
 //            lastRotation=FastMath.PI;
         } else if (right) {
             if (spatial.getLocalTranslation().x < screenWidth - (Float)spatial.getUserData("radius")) {
-                spatial.move(tpf*speed,0,0);               
+                spatial.move(tpf*speed,0,0);   
+                m.moveRight();
             }
-            System.out.println("HEEEEJ\nNEEEJ");
 //            spatial.rotate(0,0,-lastRotation + 0);
 //            lastRotation=0;
         }

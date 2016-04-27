@@ -15,23 +15,26 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
+import client.ClientMonitor;
+
 public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
 	public Node player;
 	private Node bulletNode;
 	private Picture pic;
 	private int lastMovement;
+	private ClientMonitor m;
 	private static long timer;
 	private PlayerMonitor pm;
-
-	public static void main(String[] args) {
-		SnueMain app = new SnueMain();
+	
+	public SnueMain(ClientMonitor m) {
 		PlayerMonitor pm = new PlayerMonitor();
-		app.setMonitor(pm);
-		app.start();		
+		this.setMonitor(pm);
+		this.start();		
 		timer = 0;
+		this.m = m;
 	}
-
+	
 	public void setMonitor(PlayerMonitor pm) {
 		this.pm = pm;
 	}
@@ -65,7 +68,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 
-		player.addControl(new PlayerControl(settings.getWidth(), settings.getHeight()));
+		player.addControl(new PlayerControl(settings.getWidth(), settings.getHeight(), m));
 	}
 
 	@Override

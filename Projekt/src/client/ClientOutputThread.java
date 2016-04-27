@@ -18,8 +18,6 @@ public class ClientOutputThread extends Thread {
 		System.out.println("Hej, jag är en OutputThread! Hej då!");
 		while(true) {
 			try {
-				sleep((long) (Math.random() * 10000));
-				System.out.println(monitor.getOutput());
 				bw.write(monitor.getOutput());
 				bw.flush();
 			} catch (Exception e) {
