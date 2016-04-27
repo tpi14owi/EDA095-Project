@@ -1,7 +1,4 @@
-package game;
-
-import java.util.ArrayList;
-
+package main.java.game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -17,18 +14,20 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture2D;
 import com.jme3.ui.Picture;
 
+import java.util.ArrayList;
+
 import client.ClientMonitor;
 
 public class SnueMain extends SimpleApplication implements ActionListener {
 	private long bulletCooldown;
 	public Node player;
-	private Node bulletNode;	
-	private ClientMonitor m;	
+	private Node bulletNode;
+	private ClientMonitor m;
 	private PlayerControl pc;
 	private ArrayList<String> textures;
 	private Picture pic;
-	
-	public SnueMain(ClientMonitor m, String name) {	
+
+	public SnueMain(ClientMonitor m, String name) {
 		textures = new ArrayList<String>();
 		textures.add(0, name + "_right.png");
 		textures.add(1, name + "_right_step1.png");
@@ -36,13 +35,13 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		textures.add(3, name + "_left.png");
 		textures.add(4, name + "_left_step1.png");
 		textures.add(5, name + "_left_step2.png");
-		this.start();			
+		this.start();
 		this.m = m;
-		
+
 	}
-	
+
 	@Override
-	public void simpleInitApp() {		
+	public void simpleInitApp() {
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
@@ -86,7 +85,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		player.detachChild(pic);
 
 		pic = new Picture(textures.get(i));
-		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
+		Texture2D tex = (Texture2D) assetManager.loadTexture("assets/" + textures.get(i));
 		pic.setTexture(assetManager, tex, true);
 
 		// adjust picture
@@ -141,10 +140,10 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	public void onAction(String name, boolean isPressed, float tpf) {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
-				player.getControl(PlayerControl.class).left = isPressed;				
+				player.getControl(PlayerControl.class).left = isPressed;
 			} else if (name.equals("right")) {
-				player.getControl(PlayerControl.class).right = isPressed;				
+				player.getControl(PlayerControl.class).right = isPressed;
 			}
-		}		
+		}
 	}
 }
