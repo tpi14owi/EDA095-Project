@@ -1,4 +1,4 @@
-package server;
+package main.java.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class ServerInputThread extends Thread {
 	}
 
 	public void run() {
-		
+
 		try {
 			is = s.getInputStream();
 			ir = new BufferedReader(new InputStreamReader(is));
@@ -28,17 +28,12 @@ public class ServerInputThread extends Thread {
 		}
 		while (s.isConnected()) {
 			try {
-				
+
 				System.out.println((char)ir.read());
-				System.out.println("fredrik är stygg");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		sm.removeConnection(s);
 	}
-	
-
-	// Dö
-
 }

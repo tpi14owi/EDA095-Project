@@ -19,6 +19,6 @@ Nöjet i att använda eclipse tillsammans med git
 
 7. next
 8. next
-9. IMPORT AS GENERAL PROJECT <-- viktigt, annars riskerar eclipse att bli glömsk och till exempel glömma bort vad String är, och det vill du inte!
+9. IMPORT AS ECLIPSE PROJECT
 10. next
 11. finish
