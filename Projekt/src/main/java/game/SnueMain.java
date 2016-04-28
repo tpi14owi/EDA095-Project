@@ -59,14 +59,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		guiNode.attachChild(player);
 
 		// setup input handling
-		inputManager.addMapping("mousePick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-		inputManager.addListener(this, "mousePick");
-
-		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
-		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
-
-		inputManager.addListener(this, "left");
-		inputManager.addListener(this, "right");
+		setUpKeys();
 
 		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this, m);
 		player.addControl(pc);
@@ -147,4 +140,17 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			}
 		}
 	}
+
+
+	private void setUpKeys() {
+		inputManager.addMapping("mousePick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		inputManager.addListener(this, "mousePick");
+
+		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
+		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
+
+		inputManager.addListener(this, "left");
+		inputManager.addListener(this, "right");
+	}
+
 }
