@@ -55,7 +55,7 @@ public class PlayerControl extends AbstractControl {
 				timer = System.currentTimeMillis();
 				lastMovement++;
 				if (lastMovement > 2)
-					lastMovement = 0;				
+					lastMovement = 0;
 			}
 			// spatial.rotate(0,0, -lastRotation + FastMath.PI);
 			// lastRotation=FastMath.PI;
@@ -70,7 +70,7 @@ public class PlayerControl extends AbstractControl {
 				timer = System.currentTimeMillis();
 				lastMovement++;
 				if (lastMovement > 2)
-					lastMovement = 0;				
+					lastMovement = 0;
 			}
 		} else if (lastMoveWasRight) {
 			changePicture(0);
@@ -88,5 +88,5 @@ public class PlayerControl extends AbstractControl {
 		up = false;
 		left = false;
 		right = false;
-	}	
+	}
 }
