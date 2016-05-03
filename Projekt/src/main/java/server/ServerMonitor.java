@@ -32,14 +32,28 @@ public class ServerMonitor {
 		messages.put(s, mh);
 		notifyAll();
 	}
-	
-	
-	public synchronized void propagateAction(byte[] buffer) {
-		
-	}
 
 	public synchronized boolean hasConnections() {
 		return connections.size() > 0;
+	}
+
+	public synchronized ArrayList<MessageHandler> getMessages(Socket s) {
+		ArrayList<MessageHandler> ret = new ArrayList<MessageHandler>();
+		
+		while (messages.isEmpty()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		for (Socket socket : connections) {
+			if (socket != s) {
+				ret.add(messages.get(socket));
+			}
+		}
+		return ret;
 	}
 
 }
