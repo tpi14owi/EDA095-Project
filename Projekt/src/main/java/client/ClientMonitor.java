@@ -23,6 +23,7 @@ public class ClientMonitor {
 		output = new ArrayList<ActionWrapper>();
 		actions = new ArrayList<ActionWrapper>();
 		this.name = name;
+		output.add(new ActionWrapper(name, 0, 200, 400));
 	}
 
 	/**

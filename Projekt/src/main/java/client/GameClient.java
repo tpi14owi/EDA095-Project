@@ -12,10 +12,10 @@ public class GameClient {
 
 	public static void main(String[] args) {
 		if (args.length < 2) {
-			System.err.println("Usage: java -jar GameClient host port");
+			System.err.println("Usage: java -jar GameClient host port name");
 			System.exit(1);
 		}
-		String name = "snue";
+		String name = args[2];
 		ClientMonitor m = new ClientMonitor(name);
 		int port = Integer.parseInt(args[1]);
 		String host = args[0];
