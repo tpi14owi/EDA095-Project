@@ -5,11 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class MessageHandler {
-	private long timestamp;
-	private String playerid;
-	private int command;
-	private int xcord;
-	private int ycord;
+	public long timestamp;
+	public String playerid;
+	public int command;
+	public int xcord;
+	public int ycord;
 	
 	public MessageHandler(long timestamp, String playerid, int command, int xcord, int ycord) {
 		this.timestamp = timestamp;
@@ -24,6 +24,7 @@ public class MessageHandler {
 		try {
 			os.writeLong(timestamp);
 			os.write(stringBytes.length);
+			os.write(stringBytes, 0, stringBytes.length);
 			os.writeInt(command);
 			os.writeInt(xcord);
 			os.write(ycord);
