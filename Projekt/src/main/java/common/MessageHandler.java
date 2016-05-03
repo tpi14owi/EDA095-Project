@@ -23,17 +23,17 @@ public class MessageHandler {
 		byte[] stringBytes = playerid.getBytes();
 		try {
 			os.writeLong(timestamp);
-			os.write(stringBytes.length);
+			os.writeInt(stringBytes.length);
 			os.write(stringBytes, 0, stringBytes.length);
 			os.writeInt(command);
 			os.writeInt(xcord);
 			os.write(ycord);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
+	//FUNGERAR VID SKAPANDET AV SPELARE, MEN EJ VID MOVEMENT
 	public static synchronized String readString(DataInputStream is) {
 		StringBuilder sb = null;
 		try {

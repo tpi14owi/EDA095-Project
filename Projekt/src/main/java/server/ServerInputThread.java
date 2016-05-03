@@ -26,10 +26,15 @@ public class ServerInputThread extends Thread {
 		while (s.isConnected()) {
 			try {
 				long timestamp = is.readLong();
+				System.out.println("Time: " + timestamp);
 				String playerid = MessageHandler.readString(is);
+				System.out.println("Player ID: " + playerid);
 				int command = is.readInt();
+				System.out.println("Command: " + command);
 				int xcord = is.readInt();
 				int ycord = is.readInt();
+				
+				
 				sm.addMessage(s, new MessageHandler(timestamp, playerid, command, xcord, ycord));
 			} catch (IOException e) {
 				e.printStackTrace();
