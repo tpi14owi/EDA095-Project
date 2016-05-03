@@ -14,13 +14,15 @@ import main.java.game.ActionWrapper;
 import main.java.game.SnueMain;
 
 public class ClientMonitor {
-	private Queue<String> worklist;
+	private ArrayList<ActionWrapper> output;
 	private SnueMain sm;
 	private ArrayList<ActionWrapper> actions;
+	private String name;
 	
-	public ClientMonitor() {
-		worklist = new LinkedList<String>();	
+	public ClientMonitor(String name) {
+		output = new ArrayList<ActionWrapper>();
 		actions = new ArrayList<ActionWrapper>();
+		this.name = name;
 	}
 
 	/**
@@ -28,15 +30,15 @@ public class ClientMonitor {
 	 * worklist to send towards the server
 	 * @param readLine
 	 */
-	public synchronized char[] getOutput() {
-		while (worklist.isEmpty()) {
+	public synchronized ActionWrapper getOutput() {
+		while (output.isEmpty()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return worklist.poll().toCharArray();
+		return output.remove(0);
 	}
 
 	/**
@@ -67,12 +69,12 @@ public class ClientMonitor {
 	}
 
 	public synchronized void moveLeft() {
-		worklist.add("left");
+		output.add(new ActionWrapper(name, 1, -50, 0));
 		notifyAll();
 	}
 
 	public synchronized void moveRight() {
-		worklist.add("right");
+		output.add(new ActionWrapper(name, 1, 50, 0));
 		notifyAll();
 	}
 
@@ -86,6 +88,10 @@ public class ClientMonitor {
 
 	public void updatePlayer(String string, int x, int y) {
 		actions.add(new ActionWrapper(string, 1, x, y));		
+	}
+	
+	public void putWork(String string, int command, int x, int y) {
+		actions.add(new ActionWrapper(string, command, x, y));		
 	}
 
 	public ActionWrapper getWork() {

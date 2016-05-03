@@ -1,29 +1,43 @@
 package main.java.client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Socket;
+
+import main.java.common.MessageHandler;
 
 public class ClientInputThread extends Thread {
 	private ClientMonitor monitor;
 	private BufferedReader br;
+	private DataInputStream is;
+	private Socket s;
 
-	public ClientInputThread(ClientMonitor monitor, InputStream is) {
+	public ClientInputThread(Socket s, ClientMonitor monitor) {
 		this.monitor = monitor;
-		br = new BufferedReader(new InputStreamReader(is));
+		this.s = s;
 	}
+
 
 	public void run() {
-		System.out.println("Hej, jag är en InputThread! Hej då!");
-		while (true) {
-			try {
-				monitor.putInput(br.readLine());
-			} catch (IOException e) {
-				System.out.println("Couldn't read data from ServerOutput");
-				e.printStackTrace();
-			}
+		try {
+			is = new DataInputStream(s.getInputStream());
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+		while (s.isConnected()) {
+			try {
+				is.readLong(); 	// Throw away time stamp
+				String playerid = MessageHandler.readString(is);
+				int command = is.readInt();
+				int x = is.readInt();
+				int y = is.readInt();
+				monitor.putWork(playerid, command, x, y);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}		
 	}
-
 }
