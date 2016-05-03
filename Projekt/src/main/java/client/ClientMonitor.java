@@ -1,14 +1,26 @@
 package main.java.client;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
+import com.jme3.scene.Node;
+import com.jme3.system.AppSettings;
+import com.jme3.texture.Texture2D;
+import com.jme3.ui.Picture;
+import main.java.game.ActionWrapper;
+import main.java.game.SnueMain;
 
 public class ClientMonitor {
 	private Queue<String> worklist;
-
-
+	private SnueMain sm;
+	private ArrayList<ActionWrapper> actions;
+	
 	public ClientMonitor() {
-		worklist = new LinkedList<String>();
+		worklist = new LinkedList<String>();	
+		actions = new ArrayList<ActionWrapper>();
 	}
 
 	/**
@@ -63,4 +75,23 @@ public class ClientMonitor {
 		worklist.add("right");
 		notifyAll();
 	}
+
+	public void setAssetManager(SnueMain sm) {
+		this.sm = sm;
+	}
+
+	public void addPlayer(String string, int x, int y) {
+		actions.add(new ActionWrapper(string, 0, x, y));
+	}
+
+	public void updatePlayer(String string, int x, int y) {
+		actions.add(new ActionWrapper(string, 1, x, y));		
+	}
+
+	public ActionWrapper getWork() {
+		if (actions.size() > 0) {
+			return actions.remove(0);
+		} 
+		return null;		
+	}	
 }

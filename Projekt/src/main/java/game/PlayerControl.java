@@ -14,9 +14,7 @@ import com.jme3.ui.Picture;
 import main.java.client.ClientMonitor;
 
 public class PlayerControl extends AbstractControl {
-
 	private int screenWidth, screenHeight;
-
 	// is the player currently moving?
 	public boolean up, left, right;
 	// speed of the player

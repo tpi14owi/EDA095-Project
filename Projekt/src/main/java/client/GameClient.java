@@ -22,26 +22,30 @@ public class GameClient {
 
 		// Change "snue" in SnueMain constructor to be fetched from args!??
 		SnueMain app = new SnueMain(m, "snue");
+		m.setAssetManager(app);
 
-		Socket socket = null;
-		try {
-			socket = new Socket(host, port);
-		} catch (Exception e) {
-			System.out.println("Couldn't connect.");
-		}
+//		Socket socket = null;
+//		try {
+//			socket = new Socket(host, port);
+//		} catch (Exception e) {
+//			System.out.println("Couldn't connect.");
+//			e.printStackTrace();
+//		}
 
-		OutputStream os = null;
-		InputStream is = null;
+//		OutputStream os = null;
+//		InputStream is = null;
+//
+//		try {
+//			is = socket.getInputStream();
+//			os = socket.getOutputStream();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
-		try {
-			is = socket.getInputStream();
-			os = socket.getOutputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		(new ClientInputThread(m, is)).start();
-		(new ClientOutputThread(m, os)).start();
-		(new ClientUpdaterThread(m)).start();
+//		(new ClientInputThread(m, is)).start();
+//		(new ClientOutputThread(m, os)).start();
+//		(new ClientUpdaterThread(m)).start();
+		
+		(new TestingThread(m)).start();
 	}
 }
