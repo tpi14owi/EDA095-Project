@@ -21,7 +21,7 @@ public class GameClient {
 		String host = args[0];
 
 		// Change "snue" in SnueMain constructor to be fetched from args!??
-		SnueMain app = new SnueMain(m, name);
+		SnueMain app = new SnueMain(m, "snue");
 		m.setAssetManager(app);
 
 		Socket socket = null;
