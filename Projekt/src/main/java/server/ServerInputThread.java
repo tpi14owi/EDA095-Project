@@ -30,6 +30,12 @@ public class ServerInputThread extends Thread {
 				int command = is.readInt();
 				int xcord = is.readInt();
 				int ycord = is.readInt();
+
+
+				sm.getState().setState(playerid, xcord, ycord);
+
+
+
 				MessageHandler mh = new MessageHandler(timestamp, playerid, command, xcord, ycord);
 				sm.addMessage(s, mh);
 			} catch (IOException e) {

@@ -1,10 +1,18 @@
 package main.java.common;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
 	private int x;
 	private int y;
 	private String name;
 	private int command;
+
+	public Player(String name, int x, int y) {
+		this.name = name;
+		this.x = x;
+		this.y = y;
+	}
 
 	public void setX(int x) {
 		this.x = x;

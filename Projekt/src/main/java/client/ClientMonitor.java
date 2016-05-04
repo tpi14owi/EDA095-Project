@@ -97,12 +97,13 @@ public class ClientMonitor {
 		updatePlayers();
 	}
 
-	private void updatePlayers() {
-		HashMap<Integer, Player> playersMap = state.getPlayers();
+	private synchronized void updatePlayers() {
+		ArrayList<Player> playersList = state.getPlayers();
+		if (playersList.isEmpty()) {
+			return;
+		}
 
-		Iterator itr = playersMap.entrySet().iterator();
-		while(itr.hasNext()) {
-			Player temp = (Player) itr.next();
+		for (Player temp : playersList ) {
 			if (temp.getName().equals(name)) {
 				continue;
 			} else if (!players.contains(temp.getName())) { /* NEW PLAYER */
