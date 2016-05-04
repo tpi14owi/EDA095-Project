@@ -31,9 +31,9 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private ArrayList<String> textures;
 	private Picture pic;
 	private ArrayList<PlayerWrapper> players;
-	
-		
-	
+
+
+
 
 	public SnueMain(ClientMonitor m, String name) {
 		textures = new ArrayList<String>();
@@ -42,7 +42,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		textures.add(2, name + "_right_step2.png");
 		textures.add(3, name + "_left.png");
 		textures.add(4, name + "_left_step1.png");
-		textures.add(5, name + "_left_step2.png");		
+		textures.add(5, name + "_left_step2.png");
 		players = new ArrayList<PlayerWrapper>();
 		this.start();
 		this.m = m;
@@ -69,18 +69,18 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			case 1:
 				updatePlayer(name, x, y);
 				break;
-			}				
-		}		
+			}
+		}
 	}
-	
-	
+
+
 	@Override
-	public void simpleInitApp() {		
+	public void simpleInitApp() {
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
 		getFlyByCamera().setEnabled(false);
-		
+
 		// turn off stats view (you can leave it on, if you want)
 		setDisplayStatView(false);
 		setDisplayFps(false);
@@ -120,7 +120,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		player.setMaterial(picMat);
 		player.attachChild(pic);
 	}
-	
+
 	/**
 	 * Skapar en motståndare som anslutat sig till spelet
 	 * @param id
@@ -132,7 +132,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		guiNode.attachChild(tmp);
 		players.add(new PlayerWrapper(id, tmp));
 	}
-	
+
 	/**
 	 * Skapar en spatial som kopplas till GUIet.
 	 * @param name
@@ -191,7 +191,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 	}
-	
+
 	/**
 	 * Hjälpmetod så GUIet kan uppdatera en motståndare som rört sig.
 	 * @param id
@@ -204,7 +204,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			if (p.getId() == id) {
 				tmp = p.getNode();
 				break;
-			}			
+			}
 		}
 		if (tmp != null)
 			tmp.move(20, 0, 0);

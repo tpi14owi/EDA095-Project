@@ -23,7 +23,7 @@ public class ServerMonitor {
 	public synchronized void addConnection(Socket s) {
 		connections.add(s);
 	}
-	
+
 	/**
 	 * No more than MAX_CONNECTIONS allowed.
 	 */
@@ -52,7 +52,7 @@ public class ServerMonitor {
 	 */
 	public synchronized ArrayList<MessageHandler> getMessages(Socket s) {
 		ArrayList<MessageHandler> ret = new ArrayList<MessageHandler>();
-		
+
 		while (messages.isEmpty()) {
 			try {
 				wait();
@@ -60,7 +60,7 @@ public class ServerMonitor {
 				e.printStackTrace();
 			}
 		}
-		
+
 		for (Socket socket : connections) {
 			if (socket != s) {
 				ret.add(messages.get(socket));

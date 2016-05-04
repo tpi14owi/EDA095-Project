@@ -20,7 +20,7 @@ public class ClientOutputThread extends Thread {
 
 	public ClientOutputThread(Socket s, ClientMonitor monitor, String name) {
 		this.monitor = monitor;
-		this.s = s;		
+		this.s = s;
 		this.name = name;
 	}
 
@@ -33,11 +33,11 @@ public class ClientOutputThread extends Thread {
 		while (s.isConnected()) {
 			ActionWrapper aw = monitor.getOutput();
 			int command = aw.getCommand();
-			int x = aw.getX(); 
+			int x = aw.getX();
 			int y = aw.getY();
-			long timestamp = System.currentTimeMillis();				
+			long timestamp = System.currentTimeMillis();
 			MessageHandler mh = new MessageHandler(timestamp, aw.getId(), command, x, y);
-			mh.send(os);			
-		}		
+			mh.send(os);
+		}
 	}
 }

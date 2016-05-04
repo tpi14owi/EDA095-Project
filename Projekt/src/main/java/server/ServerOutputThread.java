@@ -22,8 +22,8 @@ public class ServerOutputThread extends Thread {
 			os = new DataOutputStream(s.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-		
+		}
+
 		while (s.isConnected()) {
 			try {
 				ArrayList<MessageHandler> messages = sm.getMessages(s);

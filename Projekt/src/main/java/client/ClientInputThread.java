@@ -29,7 +29,7 @@ public class ClientInputThread extends Thread {
 		}
 		while (s.isConnected()) {
 			try {
-				is.readLong(); 	// Throw away time stamp
+				is.readLong();	// Throw away time stamp
 				String playerid = MessageHandler.readString(is);
 				int command = is.readInt();
 				int x = is.readInt();
@@ -37,7 +37,7 @@ public class ClientInputThread extends Thread {
 				monitor.putWork(playerid, command, x, y);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}			
-		}		
+			}
+		}
 	}
 }

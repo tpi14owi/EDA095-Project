@@ -5,14 +5,14 @@ public class ActionWrapper {
 	private int y;
 	private String id;
 	private int command;
-	
+
 	public ActionWrapper(String id, int command, int x, int y) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 		this.command = command;
-	}	
-	
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -21,10 +21,10 @@ public class ActionWrapper {
 		return command;
 	}
 
-	public int getX() {		
+	public int getX() {
 		return x;
 	}
-	
+
 	public int getY() {
 		return y;
 	}

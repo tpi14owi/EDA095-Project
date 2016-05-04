@@ -5,14 +5,14 @@ import com.jme3.scene.Node;
 public class TestingThread extends Thread {
 	private ClientMonitor cm;
 	private int x;
-	private int y;	
-	
+	private int y;
+
 	public TestingThread(ClientMonitor cm) {
 		this.cm = cm;
 		x = 0;
 		y = 400;
 	}
-	
+
 	public void run() {
 		try {
 		sleep(2000);

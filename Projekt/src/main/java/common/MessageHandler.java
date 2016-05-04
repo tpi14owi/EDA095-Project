@@ -10,7 +10,7 @@ public class MessageHandler {
 	public int command;
 	public int xcord;
 	public int ycord;
-	
+
 	public MessageHandler(long timestamp, String playerid, int command, int xcord, int ycord) {
 		this.timestamp = timestamp;
 		this.playerid = playerid;
@@ -18,7 +18,7 @@ public class MessageHandler {
 		this.xcord = xcord;
 		this.ycord = ycord;
 	}
-	
+
 	public void send(DataOutputStream os) {
 		byte[] stringBytes = playerid.getBytes();
 		try {
@@ -30,9 +30,9 @@ public class MessageHandler {
 			os.write(ycord);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	//FUNGERAR VID SKAPANDET AV SPELARE, MEN EJ VID MOVEMENT
 	public static synchronized String readString(DataInputStream is) {
 		StringBuilder sb = null;
@@ -47,8 +47,8 @@ public class MessageHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return sb.toString();
 		}
-	
+
 }

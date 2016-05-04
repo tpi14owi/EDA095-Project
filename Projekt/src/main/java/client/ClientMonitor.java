@@ -18,7 +18,7 @@ public class ClientMonitor {
 	private SnueMain sm;
 	private ArrayList<ActionWrapper> actions;
 	private String name;
-	
+
 	public ClientMonitor(String name) {
 		output = new ArrayList<ActionWrapper>();
 		actions = new ArrayList<ActionWrapper>();
@@ -88,17 +88,17 @@ public class ClientMonitor {
 	}
 
 	public void updatePlayer(String string, int x, int y) {
-		actions.add(new ActionWrapper(string, 1, x, y));		
+		actions.add(new ActionWrapper(string, 1, x, y));
 	}
-	
+
 	public void putWork(String string, int command, int x, int y) {
-		actions.add(new ActionWrapper(string, command, x, y));		
+		actions.add(new ActionWrapper(string, command, x, y));
 	}
 
 	public ActionWrapper getWork() {
 		if (actions.size() > 0) {
 			return actions.remove(0);
-		} 
-		return null;		
-	}	
+		}
+		return null;
+	}
 }

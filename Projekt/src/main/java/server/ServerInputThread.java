@@ -33,13 +33,13 @@ public class ServerInputThread extends Thread {
 				System.out.println("Command: " + command);
 				int xcord = is.readInt();
 				int ycord = is.readInt();
-				
-				
+
+
 				sm.addMessage(s, new MessageHandler(timestamp, playerid, command, xcord, ycord));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 		sm.removeConnection(s);
 	}
