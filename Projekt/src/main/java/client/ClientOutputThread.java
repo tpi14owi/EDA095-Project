@@ -39,6 +39,11 @@ public class ClientOutputThread extends Thread {
 			MessageHandler mh = new MessageHandler(timestamp, aw.getId(), command, x, y);
 			//System.out.println("ClientOutput :" + mh);
 			mh.send(os);
+			try {
+				sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

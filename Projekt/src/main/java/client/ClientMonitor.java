@@ -14,38 +14,42 @@ import main.java.game.ActionWrapper;
 import main.java.game.SnueMain;
 
 public class ClientMonitor {
-	private ArrayList<ActionWrapper> output;
-	private SnueMain sm;
+	// private ArrayList<ActionWrapper> output;
 	private ArrayList<ActionWrapper> actions;
+	private SnueMain sm;
 	private String name;
+	ActionWrapper aw;
 
 	public ClientMonitor(String name) {
-		output = new ArrayList<ActionWrapper>();
+		// output = new ArrayList<ActionWrapper>();
 		actions = new ArrayList<ActionWrapper>();
 		this.name = name;
-		output.add(new ActionWrapper(name, 0, 200, 400));	
+		// output.add(new ActionWrapper(name, 0, 200, 400));
+		aw = new ActionWrapper(name, 0, 200, 400);
 	}
 
 	/**
-	 * Lets the OutputThread fetch work from output correalted
-	 * worklist to send towards the server
+	 * Lets the OutputThread fetch work from output correalted worklist to send
+	 * towards the server
 	 * @param readLine
 	 */
 	public synchronized ActionWrapper getOutput() {
-		while (output.isEmpty()) {
+		while (aw == null) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return output.remove(0);
+		ActionWrapper temp = aw;
+		aw = null;
+		return temp;
 	}
-	
 
 	/**
-	 * Lets the Game fetch work from input correalted worklist
-	 * to propagate to the game
+	 * Lets the Game fetch work from input correalted worklist to propagate to
+	 * the game
+	 * 
 	 * @param readLine
 	 */
 	public synchronized char[] getInput() {
@@ -53,27 +57,27 @@ public class ClientMonitor {
 	}
 
 	public synchronized void move(int x, int y) {
-		output.add(new ActionWrapper(name, 1, x, y));
+		aw = new ActionWrapper(name, 1, x, y);
 		notifyAll();
 	}
 
-	public void setAssetManager(SnueMain sm) {
+	public synchronized void setAssetManager(SnueMain sm) {
 		this.sm = sm;
 	}
 
-	public void addPlayer(String string, int x, int y) {
+	public synchronized void addPlayer(String string, int x, int y) {
 		actions.add(new ActionWrapper(string, 0, x, y));
 	}
 
-	public void updatePlayer(String string, int x, int y) {
+	public synchronized void updatePlayer(String string, int x, int y) {
 		actions.add(new ActionWrapper(string, 1, x, y));
 	}
 
-	public void putWork(String string, int command, int x, int y) {
+	public synchronized void putWork(String string, int command, int x, int y) {
 		actions.add(new ActionWrapper(string, command, x, y));
 	}
 
-	public ActionWrapper getWork() {
+	public synchronized ActionWrapper getWork() {
 		if (actions.size() > 0) {
 			return actions.remove(0);
 		}
