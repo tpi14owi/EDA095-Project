@@ -45,7 +45,7 @@ public class PlayerControl extends AbstractControl {
 		if (left) {
 			if (spatial.getLocalTranslation().x > (Float) spatial.getUserData("radius")) {
 				spatial.move(tpf * -speed, 0, 0);
-				m.moveLeft();
+				m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
 			}
 			lastMoveWasRight = false;
 			if (System.currentTimeMillis() - timer > 100) {
@@ -60,7 +60,7 @@ public class PlayerControl extends AbstractControl {
 		} else if (right) {
 			if (spatial.getLocalTranslation().x < screenWidth - (Float) spatial.getUserData("radius")) {
 				spatial.move(tpf * speed, 0, 0);
-                m.moveRight();
+				m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
 			}
 			lastMoveWasRight = true;
 			if (System.currentTimeMillis() - timer > 100) {

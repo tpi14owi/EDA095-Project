@@ -34,6 +34,7 @@ public class ClientInputThread extends Thread {
 				int command = is.readInt();
 				int x = is.readInt();
 				int y = is.readInt();
+//				System.out.println("ClientInput: " + playerid + " Cmd: " + command);
 				monitor.putWork(playerid, command, x, y);
 			} catch (IOException e) {
 				e.printStackTrace();

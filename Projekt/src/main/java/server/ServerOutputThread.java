@@ -28,7 +28,7 @@ public class ServerOutputThread extends Thread {
 			try {
 				ArrayList<MessageHandler> messages = sm.getMessages(s);
 				for (MessageHandler ms : messages) {
-					System.out.println("Sending: " + ms.toString());
+				//	System.out.println("Sending: " + ms.toString());
 					ms.send(os);
 				}
 				sleep(200);

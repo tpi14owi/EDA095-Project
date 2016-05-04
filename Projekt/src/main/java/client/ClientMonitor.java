@@ -52,13 +52,8 @@ public class ClientMonitor {
 		return null;
 	}
 
-	public synchronized void moveLeft() {
-		output.add(new ActionWrapper(name, 1, -50, 0));
-		notifyAll();
-	}
-
-	public synchronized void moveRight() {
-		output.add(new ActionWrapper(name, 1, 50, 0));
+	public synchronized void move(int x, int y) {
+		output.add(new ActionWrapper(name, 1, x, y));
 		notifyAll();
 	}
 

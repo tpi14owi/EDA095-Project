@@ -37,7 +37,7 @@ public class ClientOutputThread extends Thread {
 			int y = aw.getY();
 			long timestamp = System.currentTimeMillis();
 			MessageHandler mh = new MessageHandler(timestamp, aw.getId(), command, x, y);
-			System.out.println("ClientOutput :" + mh);
+			//System.out.println("ClientOutput :" + mh);
 			mh.send(os);
 		}
 	}

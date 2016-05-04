@@ -200,6 +200,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 */
 	private void updatePlayer(String id, int x, int y) {
 		Node tmp = null;
+		System.out.println("Trying to move: " + id);
 		for (PlayerWrapper p : players) {
 			if (p.getId() == id) {
 				tmp = p.getNode();

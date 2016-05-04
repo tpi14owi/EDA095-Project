@@ -21,8 +21,9 @@ public class TestingThread extends Thread {
 				System.out.println("Hej nu sover jag");
 				sleep(2000);
 				System.out.println("Hej nu vaknade jag");
-				cm.updatePlayer("Opponent", x, 0);
+				cm.updatePlayer("Opponent", x, 100);
 				x += 50;
+				
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
