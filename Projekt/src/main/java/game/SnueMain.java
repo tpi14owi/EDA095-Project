@@ -53,6 +53,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 */
 	@Override
 	public void simpleUpdate(float tpf) {
+		player.getControl(PlayerControl.class).jump();
 		ActionWrapper pw = m.getWork();
 		if (pw != null) {
 			int command = pw.getCommand();
@@ -155,13 +156,15 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 * @param tpf
 	 */
 	@Override
-	public void onAction(String name, boolean isPressed, float tpf) {
+	public void onAction(String name, boolean isPressed, float tpf) {	
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
 				player.getControl(PlayerControl.class).left = isPressed;
 			} else if (name.equals("right")) {
 				player.getControl(PlayerControl.class).right = isPressed;
-			}
+			} else if (name.equals("space")) {
+				player.getControl(PlayerControl.class).space = isPressed;
+			}			
 		}
 	}
 
@@ -171,9 +174,11 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
+		inputManager.addMapping("space", new KeyTrigger(KeyInput.KEY_SPACE));
 
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
+		inputManager.addListener(this, "space");
 	}
 	
 	/**
@@ -194,8 +199,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 * @param x
 	 * @param y
 	 */
-	private void updatePlayer(String id, int x, int y) {
-		
+	private void updatePlayer(String id, int x, int y) {		
 		PlayerWrapper tmp = null;
 		System.out.println("Trying to move: " + id + "(x,y): " + x + ", " + y);
 		for (PlayerWrapper p : players) {
@@ -205,7 +209,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			}
 		}
 		if (tmp != null) {		
-			tmp.getNode().move(x - (int) tmp.getNode().getLocalTranslation().x, 0, 0);
+			tmp.getNode().move(x - (float) tmp.getNode().getLocalTranslation().x, y - (float) tmp.getNode().getLocalTranslation().y, 0);
 			updateOpponent(tmp, 0);
 		}
 	}

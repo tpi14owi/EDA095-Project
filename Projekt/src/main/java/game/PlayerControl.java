@@ -16,14 +16,16 @@ import main.java.client.ClientMonitor;
 public class PlayerControl extends AbstractControl {
 	private int screenWidth, screenHeight;
 	// is the player currently moving?
-	public boolean up, left, right;
+	public boolean space, left, right;
 	// speed of the player
 	private float speed = 400f;
 	private long timer;
 	private int lastMovement;
 	private SnueMain sm;
-	private boolean lastMoveWasRight;
+	private boolean lastMoveWasRight, isJumping, goingDown;
     private ClientMonitor m;
+    private int ground;
+    private float speedFactor;
 
 
 	public PlayerControl(int width, int height, SnueMain sm, ClientMonitor m) {
@@ -34,6 +36,10 @@ public class PlayerControl extends AbstractControl {
         this.m = m;
 		lastMovement = 0;
 		lastMoveWasRight = true;
+		isJumping = false;
+		ground = (int) (screenHeight / 2f);
+		speedFactor = (float) 1.4E-4;
+		goingDown = false;
 	}
 
 	private void changePicture(int i) {
@@ -41,11 +47,12 @@ public class PlayerControl extends AbstractControl {
 	}
 
 	@Override
-	protected void controlUpdate(float tpf) {
+	protected void controlUpdate(float tpf) {	
+		speedFactor = tpf;
 		if (left) {
 			if (spatial.getLocalTranslation().x > (Float) spatial.getUserData("radius")) {
-				spatial.move(tpf * -speed, 0, 0);
-				m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
+				spatial.move(tpf * -speed, 0, 0);				
+				m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);				
 			}
 			lastMoveWasRight = false;
 			if (System.currentTimeMillis() - timer > 100) {
@@ -55,8 +62,6 @@ public class PlayerControl extends AbstractControl {
 				if (lastMovement > 2)
 					lastMovement = 0;
 			}
-			// spatial.rotate(0,0, -lastRotation + FastMath.PI);
-			// lastRotation=FastMath.PI;
 		} else if (right) {
 			if (spatial.getLocalTranslation().x < screenWidth - (Float) spatial.getUserData("radius")) {
 				spatial.move(tpf * speed, 0, 0);
@@ -74,6 +79,27 @@ public class PlayerControl extends AbstractControl {
 			changePicture(0);
 		} else if (!lastMoveWasRight) {
 			changePicture(3);
+		} 
+		if (space) {			
+			if (!isJumping) {
+				isJumping = true;
+			}
+		}
+	}
+	
+	public void jump() {
+		if(!goingDown && isJumping && spatial.getLocalTranslation().y <= ground + 100) {
+			spatial.move(0, speedFactor * speed, 0);
+			m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
+		} else if (!goingDown && spatial.getLocalTranslation().y >= ground + 100) {
+			goingDown = true;
+		} else if(goingDown && spatial.getLocalTranslation().y > ground) {			
+			spatial.move(0, speedFactor * -speed, 0);
+			m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
+		} 
+		if (spatial.getLocalTranslation().y <= ground) {
+			isJumping = false;
+			goingDown = false;
 		}
 	}
 
@@ -83,7 +109,7 @@ public class PlayerControl extends AbstractControl {
 
 	// reset the moving values (i.e. for spawning)
 	public void reset() {
-		up = false;
+		space = false;
 		left = false;
 		right = false;
 	}
