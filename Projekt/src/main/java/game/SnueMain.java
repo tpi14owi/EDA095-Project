@@ -32,9 +32,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private Picture pic;
 	private ArrayList<PlayerWrapper> players;
 
-
-
-
 	public SnueMain(ClientMonitor m, String name) {
 		textures = new ArrayList<String>();
 		textures.add(0, name + "_right.png");
@@ -64,7 +61,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			int y = pw.getY();
 			switch (command) {
 			case 0:
-				createPlayer(name);
+				createPlayer(name, x);
 				break;
 			case 1:
 				updatePlayer(name, x, y);
@@ -122,18 +119,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	}
 
 	/**
-	 * Skapar en motståndare som anslutat sig till spelet
-	 * @param id
-	 */
-	private void createPlayer(String id) {
-		Node tmp = getSpatial(id);
-		tmp.setUserData("alive", true);
-		tmp.move(settings.getWidth() / 4, settings.getHeight() / 2, 0);
-		guiNode.attachChild(tmp);
-		players.add(new PlayerWrapper(id, tmp));
-	}
-
-	/**
 	 * Skapar en spatial som kopplas till GUIet.
 	 * @param name
 	 * @return
@@ -180,7 +165,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		}
 	}
 
-
 	private void setUpKeys() {
 		inputManager.addMapping("mousePick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		inputManager.addListener(this, "mousePick");
@@ -191,6 +175,18 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 	}
+	
+	/**
+	 * Skapar en motståndare som anslutit sig till spelet
+	 * @param id
+	 */
+	private void createPlayer(String id, int x) {		
+		Node opponent = getSpatial(id);		
+		opponent.setUserData("alive", true);
+		opponent.move(100, settings.getHeight() / 2, 0);		
+		//guiNode.attachChild(opponent);
+		players.add(new PlayerWrapper(id, opponent, pic));
+	}
 
 	/**
 	 * Hjälpmetod så GUIet kan uppdatera en motståndare som rört sig.
@@ -199,17 +195,43 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 * @param y
 	 */
 	private void updatePlayer(String id, int x, int y) {
-		Node tmp = null;
+		
+		PlayerWrapper tmp = null;
 		System.out.println("Trying to move: " + id + "(x,y): " + x + ", " + y);
 		for (PlayerWrapper p : players) {
 			if (p.getId().equals(id)) {
-				tmp = p.getNode();
+				tmp = p;
 				break;
 			}
 		}
-		if (tmp != null) {
-			System.out.println("SPELAREN FANNS HEJ HEJ!");
-			tmp.move(x - (int) tmp.getLocalTranslation().x, 0, 0);
+		if (tmp != null) {		
+			tmp.getNode().move(x - (int) tmp.getNode().getLocalTranslation().x, 0, 0);
+			updateOpponent(tmp, 0);
 		}
+	}
+	
+	/**
+	 * Uppdaterar en spelare men motion i, ser till att
+	 * spelaren animeras.
+	 * @param i
+	 */
+	private void updateOpponent(PlayerWrapper opp, int i) {
+		opp.getNode().detachChild(opp.getPic());
+		Picture pic = new Picture(textures.get(0));
+		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
+		pic.setTexture(assetManager, tex, true);
+		// adjust picture
+		float width = tex.getImage().getWidth();
+		float height = tex.getImage().getHeight();
+		pic.setWidth(width);
+		pic.setHeight(height);
+		pic.move(-width / 2f, -height / 2f, 0);
+		// add a material to the picture
+		Material picMat = new Material(assetManager, "Common/MatDefs/Gui/Gui.j3md");
+		picMat.getAdditionalRenderState().setBlendMode(BlendMode.AlphaAdditive);
+		opp.getNode().setMaterial(picMat);
+		opp.getNode().attachChild(pic);
+		guiNode.attachChild(opp.getNode());
+		opp.setPic(pic);
 	}
 }
