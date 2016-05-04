@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import main.java.common.MessageHandler;
+import main.java.common.GameState;
 
 public class ServerMonitor {
 	private static final int MAX_CONNECTIONS = 4;
 	private ArrayList<Socket> connections;
 	private HashMap<Socket, MessageHandler> messages;
+	private GameState state;
 
 	public ServerMonitor() {
+		state = new GameState();
 		connections = new ArrayList<Socket>();
 		messages = new HashMap<Socket, MessageHandler>();
 	}
@@ -69,4 +72,7 @@ public class ServerMonitor {
 		return ret;
 	}
 
+	public synchronized GameState getState() {
+		return state;
+	}
 }
