@@ -21,18 +21,19 @@ public class ServerOutputThread extends Thread {
 		try {
 			os = new DataOutputStream(s.getOutputStream());
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		while (s.isConnected()) {
 			try {
 				ArrayList<MessageHandler> messages = sm.getMessages(s);
 				for (MessageHandler ms : messages) {
+					System.out.println("Sending: " + ms.toString());
 					ms.send(os);
 				}
 				sleep(200);
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 

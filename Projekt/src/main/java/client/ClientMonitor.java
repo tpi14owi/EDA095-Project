@@ -23,7 +23,7 @@ public class ClientMonitor {
 		output = new ArrayList<ActionWrapper>();
 		actions = new ArrayList<ActionWrapper>();
 		this.name = name;
-		output.add(new ActionWrapper(name, 0, 200, 400));
+		output.add(new ActionWrapper(name, 0, 200, 400));	
 	}
 
 	/**
@@ -41,15 +41,7 @@ public class ClientMonitor {
 		}
 		return output.remove(0);
 	}
-
-	/**
-	 * Lets the UpdaterThread put work into the output-worklist
-	 * for the OutputThread to send to server.
-	 * @param readLine
-	 */
-	public synchronized void putOutput(String readLine) {
-		// TODO Auto-generated method stub		
-	}
+	
 
 	/**
 	 * Lets the Game fetch work from input correalted worklist
@@ -58,15 +50,6 @@ public class ClientMonitor {
 	 */
 	public synchronized char[] getInput() {
 		return null;
-	}
-
-	/**
-	 * Lets the InputThread put work into the worklist for
-	 * the updater to propagate to the game/GUI
-	 * @param readLine
-	 */
-	public synchronized void putInput(String readLine) {
-		// TODO Auto-generated method stub		
 	}
 
 	public synchronized void moveLeft() {

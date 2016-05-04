@@ -21,23 +21,20 @@ public class ServerInputThread extends Thread {
 		try {
 			is = new DataInputStream(s.getInputStream());
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 		while (s.isConnected()) {
 			try {
 				long timestamp = is.readLong();
-				System.out.println("Time: " + timestamp);
 				String playerid = MessageHandler.readString(is);
-				System.out.println("Player ID: " + playerid);
 				int command = is.readInt();
-				System.out.println("Command: " + command);
 				int xcord = is.readInt();
 				int ycord = is.readInt();
-
-
-				sm.addMessage(s, new MessageHandler(timestamp, playerid, command, xcord, ycord));
+				MessageHandler mh = new MessageHandler(timestamp, playerid, command, xcord, ycord);
+				sm.addMessage(s, mh);
+				System.out.println("ServerInput: " + mh.toString());
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 
 		}

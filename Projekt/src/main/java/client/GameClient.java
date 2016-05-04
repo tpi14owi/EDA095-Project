@@ -44,6 +44,6 @@ public class GameClient {
 		(new ClientOutputThread(socket, m, name)).start();
 		(new ClientUpdaterThread(m)).start();
 
-		(new TestingThread(m)).start();
+	//	(new TestingThread(m)).start();
 	}
 }

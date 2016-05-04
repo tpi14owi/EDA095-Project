@@ -27,10 +27,14 @@ public class MessageHandler {
 			os.write(stringBytes, 0, stringBytes.length);
 			os.writeInt(command);
 			os.writeInt(xcord);
-			os.write(ycord);
+			os.writeInt(ycord);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String toString() {
+		return ("Time: " + timestamp + "\nCommand: " + command + " Player: " + playerid + " at: " + xcord + ", " + ycord);
 	}
 
 	//FUNGERAR VID SKAPANDET AV SPELARE, MEN EJ VID MOVEMENT

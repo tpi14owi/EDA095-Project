@@ -15,7 +15,7 @@ public class ServerMain {
 		try {
 			ss = new ServerSocket(PORT);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		try {
@@ -32,12 +32,12 @@ public class ServerMain {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 

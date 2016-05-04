@@ -28,7 +28,7 @@ public class ClientOutputThread extends Thread {
 		try {
 			os = new DataOutputStream(s.getOutputStream());
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 		while (s.isConnected()) {
 			ActionWrapper aw = monitor.getOutput();
@@ -37,6 +37,7 @@ public class ClientOutputThread extends Thread {
 			int y = aw.getY();
 			long timestamp = System.currentTimeMillis();
 			MessageHandler mh = new MessageHandler(timestamp, aw.getId(), command, x, y);
+			System.out.println("ClientOutput :" + mh);
 			mh.send(os);
 		}
 	}
