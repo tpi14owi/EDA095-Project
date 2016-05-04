@@ -31,7 +31,7 @@ public class ServerOutputThread extends Thread {
 				//	System.out.println("Sending: " + ms.toString());
 					ms.send(os);
 				}
-				sleep(200);
+				sleep(20);
 			} catch (Exception e) {
 				//e.printStackTrace();
 			}
