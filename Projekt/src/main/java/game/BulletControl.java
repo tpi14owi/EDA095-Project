@@ -6,11 +6,8 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 
 public class BulletControl extends AbstractControl {
-    private int screenWidth, screenHeight;
- 
-    private float speed = 1100f;
-    public Vector3f direction;
-    private float rotation;
+    private int screenWidth, screenHeight;  
+    public Vector3f direction;  
     private boolean left;
  
     public BulletControl(Vector3f direction, int screenWidth, int screenHeight, boolean left) {
@@ -28,7 +25,6 @@ public class BulletControl extends AbstractControl {
     	} else {
     		spatial.move((float) -0.12,0,0); 
     	}
-
  
 //        check boundaries
         Vector3f loc = spatial.getLocalTranslation();
