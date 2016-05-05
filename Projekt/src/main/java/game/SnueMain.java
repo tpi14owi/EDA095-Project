@@ -12,6 +12,7 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
@@ -31,6 +32,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private ArrayList<String> textures;
 	private Picture pic;
 	private ArrayList<PlayerWrapper> players;
+	private boolean left; 
 
 	public SnueMain(ClientMonitor m, String name) {
 		textures = new ArrayList<String>();
@@ -43,12 +45,13 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		players = new ArrayList<PlayerWrapper>();
 		this.start();
 		this.m = m;
+		left = false;
 	}
 
 	/**
-	 * Uppdaterar GUI för Client kontinuerligt.
-	 * Hämtar arbete ifrån ClientMonitor för att få en konsekvent
-	 * bild av andra spelare.
+	 * Uppdaterar GUI för Client kontinuerligt. Hämtar arbete ifrån
+	 * ClientMonitor för att få en konsekvent bild av andra spelare.
+	 * 
 	 * @param tpf
 	 */
 	@Override
@@ -70,7 +73,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 			}
 		}
 	}
-
 
 	@Override
 	public void simpleInitApp() {
@@ -94,11 +96,16 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 		pc = new PlayerControl(settings.getWidth(), settings.getHeight(), this, m);
 		player.addControl(pc);
+
+		// setup bullet
+		bulletNode = new Node("bullet");
+		guiNode.attachChild(bulletNode);
+
 	}
 
 	/**
-	 * Uppdaterar en spelare men motion i, ser till att
-	 * spelaren animeras.
+	 * Uppdaterar en spelare men motion i, ser till att spelaren animeras.
+	 * 
 	 * @param i
 	 */
 	public void updateSpatial(int i) {
@@ -121,6 +128,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	/**
 	 * Skapar en spatial som kopplas till GUIet.
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -129,7 +137,12 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		// load picture
 		pic = new Picture(name);
 		// pc.setPic(pic);
-		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(0));
+		Texture2D tex = null;
+		if (name.equals("bullet")) {
+			tex = (Texture2D) assetManager.loadTexture("bullet.png");
+		} else {
+			tex = (Texture2D) assetManager.loadTexture(textures.get(0));
+		}
 		pic.setTexture(assetManager, tex, true);
 		// adjust picture
 		float width = tex.getImage().getWidth();
@@ -151,22 +164,53 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	/**
 	 * Actionlistener för clienten.
+	 * 
 	 * @param name
 	 * @param isPressed
 	 * @param tpf
 	 */
 	@Override
-	public void onAction(String name, boolean isPressed, float tpf) {	
+	public void onAction(String name, boolean isPressed, float tpf) {
 		if ((Boolean) player.getUserData("alive")) {
 			if (name.equals("left")) {
+				left = true;
 				player.getControl(PlayerControl.class).left = isPressed;
 			} else if (name.equals("right")) {
+				left = false;
 				player.getControl(PlayerControl.class).right = isPressed;
+			} else if (name.equals("lcontrol")) {
+				player.getControl(PlayerControl.class).lcontrol = isPressed;
 			} else if (name.equals("space")) {
 				player.getControl(PlayerControl.class).space = isPressed;
-			}			
+				// shoot Bullet
+				if (System.currentTimeMillis() - bulletCooldown > 300f) {
+					bulletCooldown = System.currentTimeMillis();
+					Vector3f aim = getAimDirection();
+					float direction = 0;
+					if (left) {
+						direction = -2;
+					} else {
+						direction = (float) 0.3;
+					}
+					Vector3f offset = new Vector3f(direction, (float) -0.8, 0);
+					// init bullet 1
+					Spatial bullet = getSpatial("bullet");
+					Vector3f finalOffset = aim.add(offset).mult(20);
+					Vector3f trans = player.getLocalTranslation().add(finalOffset);
+					bullet.setLocalTranslation(trans);
+					bullet.addControl(new BulletControl(aim, settings.getWidth(), settings.getHeight(), left));
+					bulletNode.attachChild(bullet);
+
+				}
+			}
 		}
 	}
+	
+	private Vector3f getAimDirection() {
+	    Vector3f playerPos = player.getLocalTranslation();
+	    Vector3f dif = new Vector3f(playerPos.x,playerPos.y,0);
+	    return dif.normalizeLocal();
+	}	
 
 	private void setUpKeys() {
 		inputManager.addMapping("mousePick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
@@ -175,31 +219,34 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		inputManager.addMapping("left", new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping("right", new KeyTrigger(KeyInput.KEY_RIGHT));
 		inputManager.addMapping("space", new KeyTrigger(KeyInput.KEY_SPACE));
+		inputManager.addMapping("lcontrol", new KeyTrigger(KeyInput.KEY_LCONTROL));
 
 		inputManager.addListener(this, "left");
 		inputManager.addListener(this, "right");
 		inputManager.addListener(this, "space");
+		inputManager.addListener(this, "lcontrol");
 	}
-	
 	/**
 	 * Skapar en motståndare som anslutit sig till spelet
+	 * 
 	 * @param id
 	 */
-	private void createPlayer(String id, int x) {		
-		Node opponent = getSpatial(id);		
+	private void createPlayer(String id, int x) {
+		Node opponent = getSpatial(id);
 		opponent.setUserData("alive", true);
-		opponent.move(100, settings.getHeight() / 2, 0);		
-		//guiNode.attachChild(opponent);
+		opponent.move(100, settings.getHeight() / 2, 0);
+		// guiNode.attachChild(opponent);
 		players.add(new PlayerWrapper(id, opponent, pic));
 	}
 
 	/**
 	 * Hjälpmetod så GUIet kan uppdatera en motståndare som rört sig.
+	 * 
 	 * @param id
 	 * @param x
 	 * @param y
 	 */
-	private void updatePlayer(String id, int x, int y) {		
+	private void updatePlayer(String id, int x, int y) {
 		PlayerWrapper tmp = null;
 		System.out.println("Trying to move: " + id + "(x,y): " + x + ", " + y);
 		for (PlayerWrapper p : players) {
@@ -208,15 +255,16 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 				break;
 			}
 		}
-		if (tmp != null) {		
-			tmp.getNode().move(x - (float) tmp.getNode().getLocalTranslation().x, y - (float) tmp.getNode().getLocalTranslation().y, 0);
+		if (tmp != null) {
+			tmp.getNode().move(x - (float) tmp.getNode().getLocalTranslation().x,
+					y - (float) tmp.getNode().getLocalTranslation().y, 0);
 			updateOpponent(tmp, 0);
 		}
 	}
-	
+
 	/**
-	 * Uppdaterar en spelare men motion i, ser till att
-	 * spelaren animeras.
+	 * Uppdaterar en spelare men motion i, ser till att spelaren animeras.
+	 * 
 	 * @param i
 	 */
 	private void updateOpponent(PlayerWrapper opp, int i) {

@@ -16,7 +16,7 @@ import main.java.client.ClientMonitor;
 public class PlayerControl extends AbstractControl {
 	private int screenWidth, screenHeight;
 	// is the player currently moving?
-	public boolean space, left, right;
+	public boolean space, left, right, lcontrol;
 	// speed of the player
 	private float speed = 400f;
 	private long timer;
@@ -80,7 +80,7 @@ public class PlayerControl extends AbstractControl {
 		} else if (!lastMoveWasRight) {
 			changePicture(3);
 		} 
-		if (space) {			
+		if (lcontrol) {			
 			if (!isJumping) {
 				isJumping = true;
 			}
