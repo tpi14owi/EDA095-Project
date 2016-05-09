@@ -1,7 +1,9 @@
 package main.java.game;
 
 import java.util.ArrayList;
+
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -23,20 +25,16 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private Node bulletNode;
 	private ClientMonitor m;
 	private PlayerControl pc;
-	private ArrayList<String> textures;
+	private ArrayList<Texture2D> textures;
 	private Picture pic;
 	private ArrayList<PlayerWrapper> players;
 	private boolean left; 
+	private String texname;
 
 	public SnueMain(ClientMonitor m, String name) {
-		textures = new ArrayList<String>();
-		textures.add(0, name + "_right.png");
-		textures.add(1, name + "_right_step1.png");
-		textures.add(2, name + "_right_step2.png");
-		textures.add(3, name + "_left.png");
-		textures.add(4, name + "_left_step1.png");
-		textures.add(5, name + "_left_step2.png");
+		textures = new ArrayList<Texture2D>();
 		players = new ArrayList<PlayerWrapper>();
+		texname = name;
 		this.start();
 		this.m = m;
 		left = false;
@@ -70,6 +68,17 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 
 	@Override
 	public void simpleInitApp() {
+		
+		//Gets all the textures
+		textures.add((Texture2D) assetManager.loadTexture(texname + "_right.png"));
+		textures.add((Texture2D) assetManager.loadTexture(texname + "_right_step1.png"));
+		textures.add((Texture2D) assetManager.loadTexture(texname + "_right_step2.png"));
+		textures.add((Texture2D) assetManager.loadTexture(texname+ "_left.png"));
+		textures.add((Texture2D) assetManager.loadTexture(texname + "_left_step1.png"));
+		textures.add((Texture2D) assetManager.loadTexture(texname + "_left_step2.png"));
+		textures.add((Texture2D) assetManager.loadTexture("bullet.png"));
+
+		
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
@@ -94,7 +103,8 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		// setup bullet
 		bulletNode = new Node("bullet");
 		guiNode.attachChild(bulletNode);
-
+		
+		
 	}
 
 	/**
@@ -104,12 +114,12 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 */
 	public void updateSpatial(int i) {
 		player.detachChild(pic);
-		pic = new Picture(textures.get(i));
-		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
-		pic.setTexture(assetManager, tex, true);
+		pic = new Picture("sumtin");
+		Texture2D currentTex = textures.get(i);
+		pic.setTexture(assetManager, currentTex, true);
 		// adjust picture
-		float width = tex.getImage().getWidth();
-		float height = tex.getImage().getHeight();
+		float width = currentTex.getImage().getWidth();
+		float height = currentTex.getImage().getHeight();
 		pic.setWidth(width);
 		pic.setHeight(height);
 		pic.move(-width / 2f, -height / 2f, 0);
@@ -133,9 +143,10 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		// pc.setPic(pic);
 		Texture2D tex = null;
 		if (name.equals("bullet")) {
-			tex = (Texture2D) assetManager.loadTexture("bullet.png");
+			//!!! HARDCODED (fix with map instead of list?)
+			tex = textures.get(6);
 		} else {
-			tex = (Texture2D) assetManager.loadTexture(textures.get(0));
+			tex = textures.get(0);
 		}
 		pic.setTexture(assetManager, tex, true);
 		// adjust picture
@@ -260,8 +271,8 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 */
 	private void updateOpponent(PlayerWrapper opp, int i) {
 		opp.getNode().detachChild(opp.getPic());
-		Picture pic = new Picture(textures.get(0));
-		Texture2D tex = (Texture2D) assetManager.loadTexture(textures.get(i));
+		Picture pic = new Picture();
+		Texture2D tex = textures.get(0);
 		pic.setTexture(assetManager, tex, true);
 		// adjust picture
 		float width = tex.getImage().getWidth();
