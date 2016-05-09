@@ -1,4 +1,5 @@
 package main.java.game;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
@@ -14,7 +15,7 @@ public class PlayerControl extends AbstractControl {
 	private long timer;
 	private int lastMovement;
 	private SnueMain sm;
-	private boolean lastMoveWasRight, isJumping, goingDown;
+	private boolean lastMoveWasRight, isJumping;
     private ClientMonitor m;
     private int ground;
     private float speedFactor;
@@ -33,7 +34,6 @@ public class PlayerControl extends AbstractControl {
 		isJumping = false;
 		ground = (int) (screenHeight / 2f);
 		speedFactor = (float) 1.4E-4;
-		goingDown = false;
 		currentJSpeed = 0;
 	}
 
@@ -42,7 +42,7 @@ public class PlayerControl extends AbstractControl {
 	}
 
 	@Override
-	protected void controlUpdate(float tpf) {	
+	protected void controlUpdate(float tpf) {
 		speedFactor = tpf;
 		if (left) {
 			if (spatial.getLocalTranslation().x > (Float) spatial.getUserData("radius")) {
@@ -91,9 +91,19 @@ public class PlayerControl extends AbstractControl {
 		}
 		if (spatial.getLocalTranslation().y <= ground) {
 			isJumping = false;
-			goingDown = false;
+			spatial.setLocalTranslation(spatial.getLocalTranslation().x, ground, 0);;
 			currentJSpeed = 0;
 		}
+	}
+	
+	public void collided(Vector3f dist){
+		//If you're on top (or below :S) the platform
+		if(Math.abs(dist.getY()) > Math.abs(dist.getX())){
+			isJumping = false;
+			currentJSpeed = 0;
+			//TODO: Fix so that the player drops when walking off the platform.
+		}		
+		spatial.move(new Vector3f(dist));
 	}
 
 	@Override

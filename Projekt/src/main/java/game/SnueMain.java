@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.bounding.BoundingBox;
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -30,6 +33,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	private ArrayList<PlayerWrapper> players;
 	private boolean left; 
 	private String texname;
+	private Node plats;
 
 	public SnueMain(ClientMonitor m, String name) {
 		textures = new ArrayList<Texture2D>();
@@ -48,6 +52,22 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 	 */
 	@Override
 	public void simpleUpdate(float tpf) {
+		for(Spatial plat: plats.getChildren()){	
+			//Creates bounding boxes for the platforms and the player (where to put this?)
+			BoundingBox bb = new BoundingBox(plat.getLocalTranslation(), textures.get(7).getImage().getWidth()/2, 
+					textures.get(7).getImage().getHeight()/2, 0);
+			BoundingBox pb = new BoundingBox(player.getLocalTranslation(), textures.get(0).getImage().getWidth()/2-10, 
+					textures.get(0).getImage().getHeight()/2, 0);
+			//Creates a vector pointing towards where the player came
+			Vector3f move = player.getLocalTranslation().subtract(plat.getLocalTranslation());
+			
+			//While colliding, move back
+			while(bb.intersects(pb)){				
+				player.getControl(PlayerControl.class).collided(move.normalize());
+				pb.setCenter(player.getLocalTranslation());
+			}
+		}
+		
 		player.getControl(PlayerControl.class).jump();
 		ActionWrapper pw = m.getWork();
 		if (pw != null) {
@@ -64,6 +84,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 				break;
 			}
 		}
+
 	}
 
 	@Override
@@ -77,8 +98,17 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		textures.add((Texture2D) assetManager.loadTexture(texname + "_left_step1.png"));
 		textures.add((Texture2D) assetManager.loadTexture(texname + "_left_step2.png"));
 		textures.add((Texture2D) assetManager.loadTexture("bullet.png"));
-
+		textures.add((Texture2D) assetManager.loadTexture("plat.png"));
 		
+		plats = new Node("platform");
+		guiNode.attachChild(plats);
+		
+		for(int i = 0; i < 1; i++){
+			Spatial plat = getSpatial("platforms");
+			plat.move(new Vector3f(settings.getWidth() / 2-100-10*i, settings.getHeight() / 2, 0));
+			plats.attachChild(plat);
+		}
+			
 		// setup camera for 2D games
 		cam.setParallelProjection(true);
 		cam.setLocation(new Vector3f(0, 0, 0.5f));
@@ -103,8 +133,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		// setup bullet
 		bulletNode = new Node("bullet");
 		guiNode.attachChild(bulletNode);
-		
-		
 	}
 
 	/**
@@ -128,6 +156,8 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		picMat.getAdditionalRenderState().setBlendMode(BlendMode.AlphaAdditive);
 		player.setMaterial(picMat);
 		player.attachChild(pic);
+		
+
 	}
 
 	/**
@@ -145,6 +175,9 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 		if (name.equals("bullet")) {
 			//!!! HARDCODED (fix with map instead of list?)
 			tex = textures.get(6);
+		} else
+		if (name.equals("platforms")) {
+			tex = textures.get(7);
 		} else {
 			tex = textures.get(0);
 		}
@@ -205,7 +238,6 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 					bullet.setLocalTranslation(trans);
 					bullet.addControl(new BulletControl(aim, settings.getWidth(), settings.getHeight(), left));
 					bulletNode.attachChild(bullet);
-
 				}
 			}
 		}
@@ -262,6 +294,7 @@ public class SnueMain extends SimpleApplication implements ActionListener {
 					y - (float) tmp.getNode().getLocalTranslation().y, 0);
 			updateOpponent(tmp, 0);
 		}
+
 	}
 
 	/**
