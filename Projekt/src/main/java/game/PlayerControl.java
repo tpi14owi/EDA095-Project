@@ -18,6 +18,8 @@ public class PlayerControl extends AbstractControl {
     private ClientMonitor m;
     private int ground;
     private float speedFactor;
+    private static float GRAVITY = (float) 6E-4;
+    private float currentJSpeed;
 
 
 	public PlayerControl(int width, int height, SnueMain sm, ClientMonitor m) {
@@ -32,6 +34,7 @@ public class PlayerControl extends AbstractControl {
 		ground = (int) (screenHeight / 2f);
 		speedFactor = (float) 1.4E-4;
 		goingDown = false;
+		currentJSpeed = 0;
 	}
 
 	private void changePicture(int i) {
@@ -74,24 +77,22 @@ public class PlayerControl extends AbstractControl {
 		} 
 		if (lcontrol) {			
 			if (!isJumping) {
+				currentJSpeed = speedFactor;
 				isJumping = true;
 			}
 		}
 	}
 	
 	public void jump() {
-		if(!goingDown && isJumping && spatial.getLocalTranslation().y <= ground + 100) {
-			spatial.move(0, speedFactor * speed, 0);
+		if(isJumping) {
+			currentJSpeed -= GRAVITY;
+			spatial.move(0, currentJSpeed * speed, 0);
 			m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
-		} else if (!goingDown && spatial.getLocalTranslation().y >= ground + 100) {
-			goingDown = true;
-		} else if(goingDown && spatial.getLocalTranslation().y > ground) {			
-			spatial.move(0, speedFactor * -speed, 0);
-			m.move((int) spatial.getLocalTranslation().x, (int) spatial.getLocalTranslation().y);
-		} 
+		}
 		if (spatial.getLocalTranslation().y <= ground) {
 			isJumping = false;
 			goingDown = false;
+			currentJSpeed = 0;
 		}
 	}
 
